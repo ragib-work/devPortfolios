@@ -16,18 +16,14 @@ RUN apt-get update && apt-get install -y \
     libpq-dev libjpeg-dev libcairo2 gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Create the project directory
-RUN mkdir -p /code
+# Set working directory to the root of the project
+WORKDIR /app
 
-# Set working directory
-WORKDIR /code
-
-# Copy all necessary files and folders individually (since no `src/` folder)
-COPY requirements.txt /tmp/requirements.txt
-COPY . /code  # Copies all files and folders at the root level
+# Copy all project files and folders (since there is no `src/` or `code/` directory)
+COPY . .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Set Django environment variables
 ARG DJANGO_SECRET_KEY
@@ -36,17 +32,17 @@ ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
 ARG DJANGO_DEBUG=0
 ENV DJANGO_DEBUG=${DJANGO_DEBUG}
 
-# Run collectstatic at build time (optional for Railway)
+# Collect static files
 RUN python manage.py collectstatic --noinput
 
-# Set the Django project name (change if necessary)
+# Set the Django project name (update this if needed)
 ARG PROJ_NAME="your_project_name"
 
 # Create the startup script
-RUN printf "#!/bin/bash\n" > ./start.sh && \
-    printf "RUN_PORT=\"\${PORT:-8000}\"\n\n" >> ./start.sh && \
-    printf "python manage.py migrate --no-input\n" >> ./start.sh && \
-    printf "gunicorn ${PROJ_NAME}.wsgi:application --bind \"0.0.0.0:\$RUN_PORT\"\n" >> ./start.sh
+RUN echo "#!/bin/bash" > ./start.sh && \
+    echo "RUN_PORT=\"\${PORT:-8000}\"" >> ./start.sh && \
+    echo "python manage.py migrate --no-input" >> ./start.sh && \
+    echo "gunicorn ${PROJ_NAME}.wsgi:application --bind \"0.0.0.0:\$RUN_PORT\"" >> ./start.sh
 
 # Make the script executable
 RUN chmod +x start.sh
