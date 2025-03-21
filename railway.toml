@@ -3,7 +3,9 @@ builder = "DOCKERFILE"
 dockerfilePath = "./Dockerfile"
 watchPatterns = [
     "requirements.txt", 
-    "src/**", 
+    "**/*.py",  # Watch all Python files
+    "templates/**",  # If you have Django templates
+    "static/**",  # If you have static files
     "railway.toml",
     "Dockerfile",
 ]
