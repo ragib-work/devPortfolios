@@ -5,6 +5,7 @@ import uuid
 
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+import cloudinary.models
 
 
 class Profile(models.Model):
@@ -16,8 +17,17 @@ class Profile(models.Model):
     location = models.CharField(max_length=200, blank=True, null=True, default="Earth")
     short_intro = models.CharField(max_length=200, blank=True, null=True, default="This is a default bio. User has not added a bio yet.")
     bio = models.TextField(blank=True, null=True)
-    profile_image = models.ImageField(
-        null=True, blank=True, upload_to='profiles/', default="profiles/user-default.png")
+    # profile_image = models.ImageField(
+    #     null=True, blank=True, upload_to='profiles/', default="profiles/user-default.png")
+    
+    # Use CloudinaryField for storing profile images
+    profile_image = cloudinary.models.CloudinaryField(
+        'image', 
+        default="profiles/user-default.png",  # Cloudinary default image (Optional)
+        null=True, 
+        blank=True
+    )
+
     social_github = models.CharField(max_length=200, blank=True, null=True)
     social_twitter = models.CharField(max_length=200, blank=True, null=True)
     social_linkedin = models.CharField(max_length=200, blank=True, null=True)
