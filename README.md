@@ -5,12 +5,12 @@ See the full course here: https://dennisivy.teachable.com/p/django-beginners-cou
 
 
 # Installation
-* 1 - clone repo https://github.com/divanov11/Django-Course
+* 1 - clone repo https://github.com/ragib-work/devPortfolios.git
 * 2 - create a virtual environment and activate
 *  - pip install virtualenv
 *  - virtualenv envname
 *  - envname\scripts\activate
-* 3 - cd into project "cd Django-Course"
+* 3 - cd into project "cd devPortfolios"
 * 4 - pip install -r requirements.txt
 * 5 - python manage.py runserver
 
