@@ -58,7 +58,11 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
-    'storages'
+    'storages',
+
+    # Third-party apps
+    'cloudinary',
+    'cloudinary_storage',
 
 ]
 
@@ -159,6 +163,8 @@ WSGI_APPLICATION = 'devsearch.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -226,6 +232,23 @@ EMAIL_HOST_PASSWORD = 'YOUR-EMAIL-PASSWORD'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+
+# Claudinary
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# Cloudinary Configuration
+cloudinary.config( 
+    cloud_name = "dupdfuhyx", 
+    api_key = "294987423368837", 
+    api_secret = "4cujgzpkMonJxffYrO9LEh4Qyow"
+)
+
+
+
+
+
 STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
 
@@ -242,7 +265,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # AWS_QUERYSTRING_AUTH = False
 # AWS_S3_FILE_OVERWRITE = False
