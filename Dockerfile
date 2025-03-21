@@ -36,7 +36,7 @@ ENV DJANGO_DEBUG=${DJANGO_DEBUG}
 RUN python manage.py collectstatic --noinput
 
 # Set the Django project name (update this if needed)
-ARG PROJ_NAME="your_project_name"
+ARG PROJ_NAME="devsearch"
 
 # Create the startup script
 RUN echo "#!/bin/bash" > ./start.sh && \
